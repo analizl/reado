@@ -1,4 +1,5 @@
-<h1>ReadO</h1>
+<h1><i class="fa-solid fa-book-bookmark"></i> ReadO</h1>
+
 <%= form_with url: "/books", method: :get do |form| %>
   <%= form.label :author, "Search for an author:" %>
   <%= form.text_field :author, value: @author_form %>
