@@ -1,2 +1,34 @@
-<h1>Books#index</h1>
-<p>Find me in app/views/books/index.html.erb</p>
+<h1>ReadO</h1>
+<%= form_with url: "/books", method: :get do |form| %>
+  <%= form.label :author, "Search for an author:" %>
+  <%= form.text_field :author, value: @author_form %>
+  <%= form.label :title, "title:" %>
+  <%= form.text_field :title, value: @title_form %>
+
+  <%= form.submit "Search" %>
+<% end %>
+
+<table class="table" id="books-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Description</th>
+      <th>Categories</th>
+      <th>Image</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @books.each do |book| %>
+      <%# book["id"]%>
+      <% image_url = book["volumeInfo"]["imageLinks"] ? book["volumeInfo"]["imageLinks"]["smallThumbnail"] : "" %>
+      <tr>
+        <td><%= book["volumeInfo"]["title"] %></td>
+        <td><%= book["volumeInfo"]["authors"] %></td>
+        <td><%= book["volumeInfo"]["description"] %></td>
+        <td><%= book["volumeInfo"]["categories"] %></td>
+        <td><%= image_tag(image_url) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
