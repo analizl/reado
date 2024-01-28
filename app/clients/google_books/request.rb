@@ -11,7 +11,7 @@ module GoogleBooks
     end
 
     def call
-      Rails.logger.info("[GOOGLE BOOKS][REQUEST] #{@method.upcase} - headers: #{headers.pretty_inspect} body: #{@data.pretty_inspect}")
+      Rails.logger.info("[GOOGLE BOOKS][REQUEST] #{@method.upcase} - headers: #{headers.inspect} body: #{@data.inspect}")
 
       response = HTTP
         #.headers(headers)

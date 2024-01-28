@@ -8,28 +8,29 @@
 
   <%= form.submit "Search" %>
 <% end %>
-
-<table class="table border-solid border-2" id="books-table">
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Author</th>
-      <th>Description</th>
-      <th>Categories</th>
-      <th>Image</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @books.each do |book| %>
-      <%# book["id"]%>
-      <% image_url = book["volumeInfo"]["imageLinks"] ? book["volumeInfo"]["imageLinks"]["smallThumbnail"] : "" %>
+<div class="relative flex flex-col h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
+  <table class="text-left table-fixed" id="books-table">
+    <thead>
       <tr>
-        <td><%= book["volumeInfo"]["title"] %></td>
-        <td><%= book["volumeInfo"]["authors"] %></td>
-        <td><%= book["volumeInfo"]["description"] %></td>
-        <td><%= book["volumeInfo"]["categories"] %></td>
-        <td><%= image_tag(image_url) %></td>
+        <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Title</th>
+        <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Author</th>
+        <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Description</th>
+        <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Categories</th>
+        <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Image</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @books.each do |book| %>
+        <%# book["id"]%>
+        <% image_url = book["volumeInfo"]["imageLinks"] ? book["volumeInfo"]["imageLinks"]["smallThumbnail"] : "" %>
+        <tr>
+          <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["title"] %></td>
+          <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["authors"].join(", ") %></td>
+          <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["description"] %></td>
+          <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["categories"] %></td>
+          <td class="p-4 border-b border-blue-gray-50"><%= image_tag(image_url) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
