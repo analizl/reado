@@ -1,15 +1,15 @@
 <h1><i class="fa-solid fa-book-bookmark"></i> ReadO</h1>
 
 <%= form_with url: "/books", method: :get do |form| %>
-  <%= form.label :author, "Search for an author:" %>
-  <%= form.text_field :author, value: @author_form %>
-  <%= form.label :title, "title:" %>
+  <%= form.label :title, "Search a book:" %>
   <%= form.text_field :title, value: @title_form %>
+  <%= form.label :author, "author:" %>
+  <%= form.text_field :author, value: @author_form %>
 
   <%= form.submit "Search" %>
 <% end %>
 
-<table class="table" id="books-table">
+<table class="table border-solid border-2" id="books-table">
   <thead>
     <tr>
       <th>Title</th>

@@ -1,8 +1,10 @@
 class BooksController < ApplicationController
   BASE_URL = ENV.fetch "GOOGLE_BOOKS_URL"
 
+  # TODO: what parts of the page are going to be for authenticated users
+  # before_action :authenticate_user!
+
   def index
-    puts params
     @books = []
 
     if params["author"] || params["title"]
@@ -14,7 +16,6 @@ class BooksController < ApplicationController
     
       response = client.send_request(method: :get, url: url, event: "SEARCH")
       @books = response.body["items"]
-      #render json: response.body, status: response.status 
     end
   end
 

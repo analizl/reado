@@ -73,3 +73,5 @@ gem "http"
 gem "devise", "~> 4.9"
 
 gem "font-awesome-sass", "~> 6.5.1"
+
+gem "tailwindcss-rails", "~> 2.3"
