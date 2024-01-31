@@ -1,13 +1,3 @@
-<h1><i class="fa-solid fa-book-bookmark"></i> ReadO</h1>
-
-<%= form_with url: "/books", method: :get do |form| %>
-  <%= form.label :title, "Search a book:" %>
-  <%= form.text_field :title, value: @title_form %>
-  <%= form.label :author, "author:" %>
-  <%= form.text_field :author, value: @author_form %>
-
-  <%= form.submit "Search" %>
-<% end %>
 <div class="relative flex flex-col h-full text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
   <table class="text-left table-fixed" id="books-table">
     <thead>
@@ -22,12 +12,14 @@
     <tbody>
       <% @books.each do |book| %>
         <%# book["id"]%>
+        <% authors = book["volumeInfo"]["authors"].nil? ? "-" : book["volumeInfo"]["authors"].join(",")  %>
+        <% categories = book["volumeInfo"]["categories"].nil? ? "-" : book["volumeInfo"]["categories"].join(",")  %>
         <% image_url = book["volumeInfo"]["imageLinks"] ? book["volumeInfo"]["imageLinks"]["smallThumbnail"] : "" %>
         <tr>
           <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["title"] %></td>
-          <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["authors"].join(", ") %></td>
+          <td class="p-4 border-b border-blue-gray-50"><%= authors %></td>
           <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["description"] %></td>
-          <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["categories"] %></td>
+          <td class="p-4 border-b border-blue-gray-50"><%= categories %></td>
           <td class="p-4 border-b border-blue-gray-50"><%= image_tag(image_url) %></td>
         </tr>
       <% end %>
