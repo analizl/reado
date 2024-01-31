@@ -7,12 +7,10 @@ class BooksController < ApplicationController
   def index
     @books = []
 
-    if params["author"] || params["title"]
-      @author_form = params["author"]
-      @title_form = params["title"]
-      author = @author_form.present? ? "inauthor:#{sanitize(@author_form)}" : ""
+    if search_params
+      @title_form = search_params
       title = sanitize(@title_form)
-      url = build_url(author, title)
+      url = build_url(title)
     
       response = client.send_request(method: :get, url: url, event: "SEARCH")
       @books = response.body["items"]
@@ -25,11 +23,15 @@ class BooksController < ApplicationController
     @client ||= GoogleBooks::Client.new
   end
 
-  def build_url(author, title)
-    BASE_URL + "?q=" + title + "&" + author + "&printType=books"
+  def build_url(title)
+    BASE_URL + "?q=" + title + "&printType=books"
   end
 
   def sanitize(text)
     text.parameterize(separator: '+')
+  end
+
+  def search_params
+    params["title"]
   end
 end
