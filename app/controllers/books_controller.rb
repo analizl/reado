@@ -10,11 +10,19 @@ class BooksController < ApplicationController
     if search_params
       @title_form = search_params
       title = sanitize(@title_form)
-      url = build_url(title)
+      index = params["index"] ? params["index"].to_s : 0.to_s
+      url = build_search_url(title, index)
     
       response = client.send_request(method: :get, url: url, event: "SEARCH")
       @books = response.body["items"]
     end
+  end
+
+  def show
+    url = build_volume_url(params[:id])
+
+    response = client.send_request(method: :get, url: url, event: "SEARCH")
+    @book_info = response.body["volumeInfo"]
   end
 
   private
@@ -23,8 +31,12 @@ class BooksController < ApplicationController
     @client ||= GoogleBooks::Client.new
   end
 
-  def build_url(title)
-    BASE_URL + "?q=" + title + "&printType=books"
+  def build_search_url(title, index)
+    BASE_URL + "?q=" + title + "&printType=books&startIndex=" + index
+  end
+
+  def build_volume_url(book_id)
+    BASE_URL + '/' + book_id
   end
 
   def sanitize(text)
