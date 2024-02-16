@@ -5,26 +5,39 @@
         <tr>
           <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Title</th>
           <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Author</th>
-          <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Description</th>
           <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Categories</th>
           <th class="p-4 border-b border-blue-gray-100 bg-blue-gray-50">Image</th>
         </tr>
       </thead>
       <tbody>
         <% @books.each do |book| %>
-          <%# book["id"]%>
-          <% authors = book["volumeInfo"]["authors"].nil? ? "-" : book["volumeInfo"]["authors"].join(",")  %>
-          <% categories = book["volumeInfo"]["categories"].nil? ? "-" : book["volumeInfo"]["categories"].join(",")  %>
-          <% image_url = book["volumeInfo"]["imageLinks"] ? book["volumeInfo"]["imageLinks"]["smallThumbnail"] : "" %>
+          <% book_info = book["volumeInfo"] %>
+          <% authors = book_info["authors"].nil? ? "-" : book_info["authors"].join(",")  %>
+          <% categories = book_info["categories"].nil? ? "-" : book_info["categories"].join(",")  %>
+          <% image_url = book_info["imageLinks"] ? book_info["imageLinks"]["smallThumbnail"] : "" %>
           <tr>
-            <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["title"] %></td>
-            <td class="p-4 border-b border-blue-gray-50"><%= authors %></td>
-            <td class="p-4 border-b border-blue-gray-50"><%= book["volumeInfo"]["description"] %></td>
+            <td class="p-4 border-b border-blue-gray-50"><%= link_to book_info["title"], controller: "books", action: "show", id: book["id"]%></td>
+            <td class="p-4 border-b border-blue-gray-50">
+              <% book_info["authors"].each do |author| %>
+                <%= link_to author, controller: "authors", action: "show", id: author %>
+              <% end %>
+            </td>
             <td class="p-4 border-b border-blue-gray-50"><%= categories %></td>
             <td class="p-4 border-b border-blue-gray-50"><%= image_tag(image_url) %></td>
           </tr>
         <% end %>
       </tbody>
     </table>
+
+    <div class="flex">
+      <% if params[:index].to_i != 0 %>
+        <%= link_to "Previous", books_path(title: params[:title], index: (params[:index]).to_i - 10), class:"flex items-center justify-center px-4 h-10 me-3 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" %>
+      <% end %>
+      <%= link_to "Next", books_path(title: params[:title], index: (params[:index]).to_i + 10), class:"flex items-center justify-center px-4 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white" %>
+    </div>
   </div>
+  
+
+  <a href="#top" id="btn" class="bg-white border-gray-200 dark:bg-gray-600 hover:bg-gray-500"><i class="fa-solid fa-chevron-up"></i></button>
 <% end %>
+
