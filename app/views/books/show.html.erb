@@ -1,8 +1,32 @@
-<h1>Title: <%= @book_info["title"] %></h1>
-<h1>Author/s: <%= authors = @book_info["authors"].nil? ? "-" : @book_info["authors"].join(",") %></h1>
-<h1>Publisher: <%= @book_info["publisher"] %></h1>
-<h1>Published date: <%= @book_info["publishedDate"] %></h1>
-<h1>Page count: <%= @book_info["pageCount"] %></h1>
-<% image_url = @book_info["imageLinks"] ? @book_info["imageLinks"]["thumbnail"] : "" %>
-<%= image_tag(image_url) if image_url%>
-<h1>Description: <%= @book_info["description"].html_safe %></h1>
+<div class="max-w-9xl flex items-center h-auto lg:h-screen flex-wrap mx-10 my-32 lg:my-0">
+    
+<!--Main Col-->
+<div id="profile" class="w-full lg:w-3/5 rounded-lg lg:rounded-l-lg lg:rounded-r-none shadow-2xl bg-white opacity-75 mx-6 lg:mx-0">
+
+<% image_url = (@book_info["imageLinks"] ? @book_info["imageLinks"]["medium"] : "").gsub(/http/, 'https') %>
+
+    <div class="p-4 md:p-12 text-center lg:text-left">
+        <!-- Image for mobile view-->
+        <div class="block lg:hidden rounded-full shadow-xl mx-auto -mt-16 h-48 w-48 bg-cover bg-center" style="background-image: url('<%= image_url %>')"></div>
+        
+        <h1 class="text-3xl font-bold pt-8 lg:pt-0">Title: <%= @book_info["title"] %></h1>
+        <div class="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
+        <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">Author/s: <%= authors = @book_info["authors"].nil? ? "-" : @book_info["authors"].join(",") %></p>
+        <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">Publisher: <%= @book_info["publisher"] %></p>
+        <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">Published date: <%= @book_info["publishedDate"] %></p>
+        <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">Page count: <%= @book_info["pageCount"] %></p>
+        <p class="pt-4 text-base font-bold flex items-center justify-center lg:justify-start">Description: <%= @book_info["description"].html_safe %></p>
+
+        <% if signed_in? %>
+            <div class="pt-12 pb-8">
+                <button class="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full">Add to favs</button> 
+            </div>
+        <% end %>
+            
+    </div>
+</div>
+
+<!--Img Col-->
+<div class="w-full lg:w-2/5">
+    <img src="<%= image_url %>" class="rounded-none lg:rounded-lg shadow-2xl hidden lg:block">
+</div>
